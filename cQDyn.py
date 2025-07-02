@@ -4,15 +4,6 @@ Code for quantum dynamics based on coefficients and precomputed matrices.
 """
 import numpy as np
 
-
-### input ###
-input_file = 'input.json'
-nstates = 2
-cinput = np.array([1, 0])
-energyinput = np.array([0, 1])
-Hinput = np.array([[1, 0], [0, 1]])
-
-
 ### functions ###
 def read_input(input_file='input.json'):
     """Function to read input and initialize variables"""
@@ -171,7 +162,7 @@ if __name__ == '__main__':
           "   #####################\n")
 
     ### reading input ###
-    tot_time, dt, print_time, nstates, c, H_0, V_int, field = read_input(input_file=input_file)
+    tot_time, dt, print_time, nstates, c, H_0, V_int, field = read_input()
 
     # printing input
     print("Input:")
