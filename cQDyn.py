@@ -4,6 +4,7 @@ Code for quantum dynamics based on coefficients and precomputed matrices.
 """
 import numpy as np
 
+
 ### functions ###
 def read_input(input_file='input.json'):
     """Function to read input and initialize variables"""
@@ -187,6 +188,19 @@ if __name__ == '__main__':
     # check that H is Hermitean
     is_hermitean(H_0, 'H_0')
     is_hermitean(V_int, 'V_int')
+
+    # if interaction is zero (V_int=0 or field=0), then substeps are not necessary as the exponential is the
+    # exact propagator, hence, the time step is set to print time
+    if np.all(V_int == 0):
+        dt = print_time
+        print("* No time-dependent interacion (V_int = 0), hence, dt is set to print time."
+              f"\n  'dt' = 'print_time' = {dt:.5f}")
+    elif field == "0":
+        dt = print_time
+        print("* No time-dependent interacion (field = 0), hence, dt is set to print time."
+              f"\n  'dt' = 'print_time' = {dt:.5f}")
+    elif dt > print_time:
+        exit(f"* Time step (dt = {dt:.5f}) is larger than print time ({print_time:.5f}).")
 
     # preparing propagation variables
     nprint = int(print_time/dt)
