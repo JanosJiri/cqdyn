@@ -137,7 +137,7 @@ def plot(t, c, E):
 
     axs[0].set_title('Quantum Dynamics', fontsize=14)
     for i in range(len(c)):
-        axs[0].plot(t, np.abs(c[i])**2, label=f'$|c_{i}|^2$')
+        axs[0].plot(t, np.abs(c[i])**2, label=f'$|c_{{{i}}}|^2$')
     axs[0].set_ylabel('Population')
     axs[0].set_xlim(t.min(), t.max())
     axs[0].set_ylim(-0.01, 1.01)
@@ -153,6 +153,7 @@ def plot(t, c, E):
 
     plt.tight_layout()
     plt.subplots_adjust(hspace=0)
+    plt.savefig('cqdyn.png', dpi=300)
     plt.show()
 
 
