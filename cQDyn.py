@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Code for quantum dynamics based on coefficients and precomputed matrices.
 © Jiri Janos 2025
@@ -9,6 +10,7 @@ import numpy as np
 def read_input(input_file='input.json'):
     """Function to read input and initialize variables"""
     from json import load
+    from os.path import exists
 
     # function for input reading
     def is_positive_integer(var, name):
@@ -32,6 +34,8 @@ def read_input(input_file='input.json'):
             exit(f"Error: '{key}' not found in the input.")
 
     # opening input file
+    if not exists(input_file):
+        exit(f"Error: Input file '{input_file}' does not exist.")
     with open(input_file, 'r') as file:
         input = load(file)  # using json function load
 
