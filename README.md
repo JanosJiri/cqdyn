@@ -1,5 +1,5 @@
-# cQDyn.py
-`cQDyn.py` is a Python package for simulating quantum dynamics using state coefficients and Hamiltonian matrices. The code allows inclusion of external field via interaction Hamiltonian. 
+# Coefficient-based Quantum Dynamics (cQDyn)
+`cQDyn` is a Python package for simulating quantum dynamics using state coefficients and Hamiltonian matrices. The code allows inclusion of external field via interaction Hamiltonian. 
 
 ## Theory
 
@@ -20,6 +20,21 @@ with the Hamiltonian matrix $\mathbb{H}\_{ij} = \langle\phi_i|\hat{H}|\phi_j\ran
 $$\mathbb{H} = \mathbb{H}\_0+\mathbb{V}_\mathrm{int}\cdot\varepsilon (t)$$
 
 Hence, the time-independent Hamiltonian $\mathbb{H}\_{0}$ and the interaction Hamiltonian $\mathbb{V}_\mathrm{int}$ multiplied by a time-dependent field (interaction) $\varepsilon$ are necessary to specify the system.
+
+## Installation
+To install the package, clone the repository and run the following command in the terminal in the root directory of the project:
+
+```bash
+pip install .
+```
+
+After that, you can run the code from the command line as
+
+```bash
+pip install .
+```
+
+or import it in your Python scripts.
 
 ## Input
 

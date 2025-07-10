@@ -160,9 +160,7 @@ def plot(t, c, E):
     plt.savefig('cqdyn.png', dpi=300)
     plt.show()
 
-
-##### CODE #####
-if __name__ == '__main__':
+def main():
     print("\n   #####################\n"
           "   ###     cQDyn     ###\n"
           "   #####################\n")
@@ -258,3 +256,7 @@ if __name__ == '__main__':
 
     # plotting
     plot(time_arr, coef_arr, E_arr)
+
+##### CODE #####
+if __name__ == '__main__':
+    main()

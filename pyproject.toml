@@ -1,0 +1,39 @@
+[project]
+name = "cqdyn"
+version = "1.0.0a0"
+authors = [
+  { name="Jiri Janos", email="jiri.janos98@gmail.com" }
+]
+license = {file = 'LICENSE'}
+classifiers = [
+  'Development Status :: 5 - Production/Stable',
+  'License :: OSI Approved :: MIT License',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3 :: Only',
+  'Topic :: Scientific/Engineering'
+]
+description = "Python package for coefficient-based quantum dynamics simulations."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.20",
+    "matplotlib>=3.9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/JanosJiri/cqdyn"
+Documentation = "https://github.com/JanosJiri/cqdyn/blob/main/README.md"
+Repository = "git@github.com:JanosJiri/cqdyn.git"
+Issues = "https://github.com/JanosJiri/cqdyn/issues"
+
+[project.scripts]
+cqdyn = "cqdyn:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
