@@ -141,7 +141,7 @@ def plot(t, c, E):
 
     axs[0].set_title('Quantum Dynamics', fontsize=14)
     for i in range(len(c)):
-        axs[0].plot(t, np.abs(c[i])**2, label=f'$|c_{{{i}}}|^2$')
+        axs[0].plot(t, np.abs(c[i])**2, label=f'$|c_{{{i+1}}}|^2$')
     axs[0].set_ylabel('Population')
     axs[0].set_xlim(t.min(), t.max())
     axs[0].set_ylim(-0.01, 1.01)
@@ -159,6 +159,15 @@ def plot(t, c, E):
     plt.subplots_adjust(hspace=0)
     plt.savefig('cqdyn.png', dpi=300)
     plt.show()
+
+def coef_analysis(c):
+    """Analyzing coefficients."""
+    print("* state  |  max population  |  min population \n"
+          "  ------------------------------------------- ")
+    pop = np.abs(c)**2
+    for state in range(np.shape(c)[0]):
+        print(f"  {state+1:^5d}  |  {np.max(pop[state]):11.5f}     |  {np.min(pop[state]):11.5f}")
+
 
 def main():
     print("\n   #####################\n"
@@ -254,7 +263,12 @@ def main():
 
     print("\nPropagation finished. Data saved.")
 
+    # analyzing results
+    print("\nAnalysis:")
+    coef_analysis(coef_arr)
+
     # plotting
+    print("\nPlotting data")
     plot(time_arr, coef_arr, E_arr)
 
 ##### CODE #####
