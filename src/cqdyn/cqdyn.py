@@ -7,6 +7,24 @@ import numpy as np
 
 
 ### functions ###
+def output_logger():
+    import logging
+    """Set up the logger for output messages."""
+    global logger
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    # handlers
+    console_handler = logging.StreamHandler()
+    file_handler = logging.FileHandler('cqdyn.out', mode='w')
+
+    for log in [console_handler, file_handler]:
+        log.setFormatter(logging.Formatter('%(message)s'))
+        logger.addHandler(log)
+    return logger
+
+
 def read_input(input_file='input.json'):
     """Function to read input and initialize variables"""
     from json import load
@@ -87,7 +105,7 @@ def is_hermitean(H, name):
     """Checking that the inserted matrix is Hermitean. Since H is considered to be real, we check that it is symmetric.
     Exact symmetry is checked, no numerical tolerance is considered currently."""
     if np.allclose(H, H.T, rtol=0, atol=0):
-        print(f"* {name} is Hermitean (symmetric).")
+        logger.info(f"* {name} is Hermitean (symmetric).")
     else:
         exit(f"Error: input {name} is not Hermitean (symmetric)!")
 
@@ -141,7 +159,7 @@ def plot(t, c, E):
 
     axs[0].set_title('Quantum Dynamics', fontsize=14)
     for i in range(len(c)):
-        axs[0].plot(t, np.abs(c[i])**2, label=f'$|c_{{{i+1}}}|^2$')
+        axs[0].plot(t, np.abs(c[i])**2, label=f'$|c_{{{i + 1}}}|^2$')
     axs[0].set_ylabel('Population')
     axs[0].set_xlim(t.min(), t.max())
     axs[0].set_ylim(-0.01, 1.01)
@@ -160,39 +178,41 @@ def plot(t, c, E):
     plt.savefig('cqdyn.png', dpi=300)
     plt.show()
 
+
 def coef_analysis(c):
     """Analyzing coefficients."""
-    print("* state  |  max population  |  min population \n"
-          "  ------------------------------------------- ")
+    logger.info("* state  |  max population  |  min population  |  final population \n"
+                "  ---------------------------------------------------------------- ")
     pop = np.abs(c)**2
     for state in range(np.shape(c)[0]):
-        print(f"  {state+1:^5d}  |  {np.max(pop[state]):11.5f}     |  {np.min(pop[state]):11.5f}")
+        logger.info(f"  {state + 1:^5d}  |  {np.max(pop[state]):^14.6f}  |  {np.min(pop[state]):^14.6f}  "
+                    f"|  {pop[state,-1]:^16.6f}")
 
 
 def main():
-    print("\n   #####################\n"
-          "   ###     cQDyn     ###\n"
-          "   #####################\n")
+    # setting up output logger
+    logger = output_logger()
+    logger.info("\n   #####################\n"
+                "   ###     cQDyn     ###\n"
+                "   #####################\n")
 
     ### reading input ###
     tot_time, dt, print_time, nstates, c, H_0, V_int, field = read_input()
 
     # printing input
-    print("Input:")
-    print("* total time: ", tot_time, "\n* dt: ", dt, "\n* print time: ", print_time, "\n* nstates: ", nstates,
-        "\n* coefficients:\n  ", np.array2string(c, separator='  ', formatter={
-            'complex_kind': lambda x: f'{x.real:.5f}{x.imag:+.5f}j'}), "\n* H_0 (Hamiltonian):")
+    logger.info("Input:")
+    logger.info(f"* total time: {tot_time}\n* dt: {dt}\n* print time: {print_time}\n* nstates: {nstates}"
+                f"\n* coefficients:\n  " + np.array2string(c, separator='  ', formatter={
+        'complex_kind': lambda x: f'{x.real:.5f}{x.imag:+.5f}j'}) + "\n* H_0 (Hamiltonian):")
     for row in H_0:
-        print("  ", np.array2string(row, separator='  ', formatter={
-            'float': lambda x: f'{x:.5f}'}))
-    print(f"* V_int (interaction Hamiltonian):")
+        logger.info("  " + np.array2string(row, separator='  ', formatter={'float': lambda x: f'{x:.5f}'}))
+    logger.info(f"* V_int (interaction Hamiltonian):")
     for row in V_int:
-        print("  ", np.array2string(row, separator='  ', formatter={
-            'float': lambda x: f'{x:.5f}'}))
-    print(f"* field: {field}")
+        logger.info("  " + np.array2string(row, separator='  ', formatter={'float': lambda x: f'{x:.5f}'}))
+    logger.info(f"* field: {field}")
 
     ### initialization ###
-    print("\nInitialization:")
+    logger.info("\nInitialization:")
 
     # check norm of the wave function
     norm(c)
@@ -205,12 +225,12 @@ def main():
     # exact propagator, hence, the time step is set to print time
     if np.all(V_int == 0):
         dt = print_time
-        print("* No time-dependent interacion (V_int = 0), hence, dt is set to print time."
-              f"\n  'dt' = 'print_time' = {dt:.5f}")
+        logger.info("* No time-dependent interacion (V_int = 0), hence, dt is set to print time."
+                    f"\n  'dt' = 'print_time' = {dt:.5f}")
     elif field == "0":
         dt = print_time
-        print("* No time-dependent interacion (field = 0), hence, dt is set to print time."
-              f"\n  'dt' = 'print_time' = {dt:.5f}")
+        logger.info("* No time-dependent interacion (field = 0), hence, dt is set to print time."
+                    f"\n  'dt' = 'print_time' = {dt:.5f}")
     elif dt > print_time:
         exit(f"* Time step (dt = {dt:.5f}) is larger than print time ({print_time:.5f}).")
 
@@ -221,7 +241,7 @@ def main():
     eshift = np.average(np.diag(H_0))  # todo: employ it later in propagation
 
     ### propagation ###
-    print("\nPropagation:")
+    logger.info("\nPropagation:")
     t = 0
     H = build_hamiltonian(H_0, V_int, field, t, dt)
     energy = cal_energy(c, H)
@@ -248,7 +268,7 @@ def main():
             coef_arr.append(c)
             E_arr.append(energy)
             time_arr.append(t)
-            print(f'* Time: {t:12.5f} a.t.u.; Energy: {energy: 12.5f} a.u.')
+            logger.info(f'* Time: {t:12.5f} a.t.u.; Energy: {energy: 12.5f} a.u.')
 
     # saving data
     coef_arr = np.array(coef_arr).T
@@ -261,15 +281,16 @@ def main():
     np.savetxt('energy.txt', np.column_stack((time_arr, E_arr)), fmt='%12.5f %20.5f',
         header='    Time                Energy')
 
-    print("\nPropagation finished. Data saved.")
+    logger.info("\nPropagation finished. Data saved.")
 
     # analyzing results
-    print("\nAnalysis:")
+    logger.info("\nAnalysis:")
     coef_analysis(coef_arr)
 
     # plotting
-    print("\nPlotting data")
+    logger.info("\nPlotting data")
     plot(time_arr, coef_arr, E_arr)
+
 
 ##### CODE #####
 if __name__ == '__main__':
