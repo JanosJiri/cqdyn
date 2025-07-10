@@ -31,7 +31,7 @@ pip install .
 After that, you can run the code from the command line as
 
 ```bash
-pip install .
+cqdyn
 ```
 
 or import it in your Python scripts.
