@@ -51,3 +51,22 @@ The input is given in the JSON format in `input.json` with the following structu
 }
 ```
 where `H_0` is the Hamiltonian without interaction, `V_int` is the interaction Hamiltonian and `field` is the interaction field. Note that `field` is a string with prescription of the time-dependent field where the time is denoted as 't'. `coefficients` hold the state coefficients at the beginning of the dynamics. 
+
+## Output
+
+Python arrays in the binary format are saved in the `cqdyn.npz` file. The file contains the following arrays:
+- `time`: time points of the simulation
+- `coefficients`: complex coefficients of the wave function at each time point
+- `energy`: energy at each time point
+Loading the file can be done in Python as
+```python
+import numpy as np
+data = np.load('cqdyn.npz')
+time = data['time']
+coefficients = data['coefficients']
+energy = data['energy']
+```
+
+Energies and coefficcients are also save in a human-readable text format in `energy.txt` and `coefficients.txt` files.
+
+The cQDyn output from the terminal is saved to `cqdyn.out`.

@@ -280,6 +280,7 @@ def main():
         header='Coefficients of the wave function')  # todo: this can be deffinitely improved
     np.savetxt('energy.txt', np.column_stack((time_arr, E_arr)), fmt='%12.5f %20.5f',
         header='    Time                Energy')
+    np.savez('cqdyn.npz', time=time_arr, coefficients=coef_arr, energy=E_arr)
 
     logger.info("\nPropagation finished. Data saved.")
 
