@@ -1,5 +1,5 @@
-# Coefficient-based Quantum Dynamics (cQDyn)
-`cQDyn` is a Python package for simulating quantum dynamics using state coefficients and Hamiltonian matrices. The code allows inclusion of external field via interaction Hamiltonian. 
+# cQDyn: coefficient-based Quantum Dynamics
+`cQDyn` is a Python package for simulating quantum dynamics using state coefficients and Hamiltonian matrices. The code allows the inclusion of an external field via the interaction Hamiltonian. 
 
 ## Theory
 
@@ -11,7 +11,7 @@ where $c_i$ are the time-dependent expansion coefficients. The Hamiltonian is co
 
 $$\hat{H} = \hat{T} + \hat{V} + \hat{V}\_\mathrm{int}\cdot\varepsilon (t) = \hat{H}\_0 + \hat{V}_\mathrm{int}\cdot\varepsilon (t)$$
 
-$\hat{H}\_0$ is the Hamiltonian without interaction, $\hat{V}_\mathrm{int}$ is the interaction strength and $\varepsilon$ is the time-dependent driving field of the interaction, e.g., electric field of a laser pulse. Inserting the ansatz into the time-dependent Schrödinger equations leads to
+$\hat{H}\_0$ is the Hamiltonian without interaction, $\hat{V}_\mathrm{int}$ is the interaction strength and $\varepsilon$ is the time-dependent driving field of the interaction, e.g., the electric field of a laser pulse. Inserting the ansatz into the time-dependent Schrödinger equations leads to
 
 $$i\hbar \frac{\mathrm{d}}{\mathrm{d}t}\vec{c}(t) = \mathbb{H}\vec{c}$$
 
@@ -70,3 +70,13 @@ energy = data['energy']
 Energies and coefficcients are also save in a human-readable text format in `energy.txt` and `coefficients.txt` files.
 
 The cQDyn output from the terminal is saved to `cqdyn.out`.
+
+## Citation
+```bibtex
+@software{cqdyn,
+  title = {cQDyn: coefficient-based Quantum Dynamics},
+  author = {Janoš, Jiří},
+  url = {https://github.com/JanosJiri/cqdyn},
+  year = {2025},
+}
+```
