@@ -1,6 +1,6 @@
 [project]
 name = "cqdyn"
-version = "1.0.0a0"
+version = "1.0.0"
 authors = [
   { name="Jiri Janos", email="jiri.janos98@gmail.com" }
 ]
